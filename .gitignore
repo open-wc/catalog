@@ -1,0 +1,31 @@
+## editors
+/.idea
+/.vscode
+
+## system files
+.DS_Store
+
+# code coverage folders
+coverage/
+
+## npm
+node_modules
+npm-debug.log
+
+## lerna
+lerna-debug.log
+
+## temp folders
+/.tmp/
+
+# build hp
+/_site/
+
+## we don't want lock files for now
+yarn.lock
+package-lock.json
+
+## build output
+/dist
+/build-stats.json
+/lambda
