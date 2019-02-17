@@ -14,3 +14,10 @@ export const wcTypes = [
   { key: 'polymer-3.x', label: 'polymer 3.x', icon: openWcLogo, description: 'This is', url: './' },
   { key: 'stencil-0.x', label: 'stencil 0.x', icon: openWcLogo, description: 'This is', url: './' },
 ];
+
+// adds "special" keywords to standard keywords
+wcTypes.forEach(wcType => {
+  if (wcType.key !== '') {
+    keywords.push(wcType.key);
+  }
+});
