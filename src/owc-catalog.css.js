@@ -2,14 +2,18 @@ import { css } from 'lit-element';
 
 export default css`
   :host {
-    text-align: center;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
+    height: 100%;
+    text-align: center;
     font-size: calc(10px + 2vmin);
     color: #1a2b42;
+  }
+
+  a {
+    color: #217ff9;
   }
 
   .app-header svg {
@@ -17,13 +21,9 @@ export default css`
     animation: app-logo-spin infinite 20s linear;
   }
 
-  a {
-    color: #217ff9;
-  }
-
   .app-footer {
     color: #a8a8a8;
-    font-size: calc(10px + 0.5vmin);
+    font-size: calc(10px + 1vmin);
   }
 
   @keyframes app-logo-spin {

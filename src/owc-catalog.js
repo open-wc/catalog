@@ -6,6 +6,7 @@ import openWcLogo from './icons/open-wc-logo.js';
 import githubIcon from './icons/github.js';
 import npmIcon from './icons/npm.js';
 import { wcTypes } from './values.js';
+import './components/owc-package-search';
 
 const renderType = (type = '') => {
   const wcType = wcTypes.find(el => el.key === type);
@@ -60,14 +61,6 @@ class OwcApp extends LitElement {
     };
   }
 
-  get searchElement() {
-    return this.shadowRoot.querySelector('input');
-  }
-
-  get typeElement() {
-    return this.shadowRoot.querySelector('select');
-  }
-
   static get styles() {
     return owcAppStyle;
   }
@@ -96,6 +89,7 @@ class OwcApp extends LitElement {
             If you want to add an component to this type see
             <a href="https://github.com/open-wc/catalog" target="_blank">help</a>.
           `;
+
     if (this.data.length > 0) {
       list = this.data.map(
         item => html`
@@ -149,31 +143,23 @@ class OwcApp extends LitElement {
       );
     }
 
-    const typeOptions = wcTypes.map(
-      type =>
-        html`
-          <option value=${type.key}>${type.label}</option>
-        `,
-    );
-
     return html`
-      <header class="app-header">
-        ${unsafeHTML(openWcLogo)}
-        <h1>Custom Element Catalog</h1>
-      </header>
-      <main>
-        <form>
-          <input type="text" value="button" />
-          <button @click=${this._search}>search</button>
-          <select name="type">
-            ${typeOptions}
-          </select>
-          <a href="https://github.com/open-wc/catalog" target="_blank">help</a>
-        </form>
-        <div>
-          ${list}
-        </div>
-      </main>
+      <div><!-- empty for flex space-between --></div>
+
+      <div>
+        <header class="app-header">
+          ${unsafeHTML(openWcLogo)}
+          <h1>Web Component Catalog</h1>
+        </header>
+        <main>
+          <owc-package-search @package-search-submit=${this._onSearchSubmit}></owc-package-search>
+
+          <div>
+            ${list}
+          </div>
+        </main>
+      </div>
+
       <p class="app-footer">
         🚽 Made with love by
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/open-wc">open-wc</a>.
@@ -181,9 +167,8 @@ class OwcApp extends LitElement {
     `;
   }
 
-  _search(ev) {
-    ev.preventDefault();
-    this.search(this.searchElement.value, this.typeElement.value);
+  _onSearchSubmit(e) {
+    this.search(e.detail.search, e.detail.filter);
   }
 
   async search(_query, _type) {

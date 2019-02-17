@@ -3,7 +3,7 @@ import openWcLogo from './icons/open-wc-logo';
 
 export const keywords = ['web-components', 'web-component', 'polymer'];
 export const wcTypes = [
-  { key: '', label: 'all webcomponents', icon: openWcLogo, description: 'This is', url: './' },
+  { key: '', label: 'All webcomponents', icon: openWcLogo, description: 'This is', url: './' },
   {
     key: 'lit-element-2.x',
     label: 'lit-element 2.x',
