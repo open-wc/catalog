@@ -31,6 +31,27 @@ const renderTags = (tags = []) => {
   );
 };
 
+const openCodePen = item => {
+  if (item.owcUnpkg.payload) {
+    return html`
+      <form action="https://codepen.io/pen/define" method="POST" target="_blank">
+        <input type="hidden" name="data" value=${JSON.stringify(item.owcUnpkg.payload)} />
+        <input type="submit" value="Create New Pen with Prefilled Data" />
+      </form>
+    `;
+  }
+  return html``;
+};
+
+const iframeDemo = item => {
+  if (item.owcType) {
+    return html`
+      <iframe src=${item.owcUnpkg.demoUrl}></iframe>
+    `;
+  }
+  return html``;
+};
+
 class OwcApp extends LitElement {
   static get properties() {
     return {
@@ -68,17 +89,17 @@ class OwcApp extends LitElement {
           `;
     if (this.data.length > 0) {
       list = this.data.map(
-        result => html`
+        item => html`
           <div class="package">
             <div class="package__title">
-              <a class="title__name" href=${result.package.links.npm} target="_blank">
-                ${result.package.name}
+              <a class="title__name" href=${item.package.links.npm} target="_blank">
+                ${item.package.name}
               </a>
               <div class="package__links">
                 <a
                   class="links__link"
                   title="View on GitHub"
-                  href=${result.package.links.repository}
+                  href=${item.package.links.repository}
                   target="_blank"
                 >
                   ${unsafeHTML(githubIcon)}
@@ -86,7 +107,7 @@ class OwcApp extends LitElement {
                 <a
                   class="links__link"
                   title="View on UNPKG"
-                  href=${`https://www.unpkg.com/${result.package.name}/`}
+                  href=${item.owcUnpkg.url}
                   target="_blank"
                 >
                   U
@@ -94,7 +115,7 @@ class OwcApp extends LitElement {
                 <a
                   class="links__link"
                   title="View on npm"
-                  href=${result.package.links.npm}
+                  href=${item.package.links.npm}
                   target="_blank"
                 >
                   ${unsafeHTML(npmIcon)}
@@ -102,16 +123,16 @@ class OwcApp extends LitElement {
               </div>
             </div>
             <div class="package__content">
-              ${result.package.description}
+              ${item.package.description} ${iframeDemo(item)} ${openCodePen(item)}
             </div>
             <div class="package__footer">
               <div class="package__type">
                 <span>Type:</span>
-                ${renderType(result.owcType)}
+                ${renderType(item.owcType)}
               </div>
               <div class="package__tags">
                 <span>Tags:</span>
-                ${renderTags(result.package.keywords)}
+                ${renderTags(item.package.keywords)}
               </div>
             </div>
           </div>
