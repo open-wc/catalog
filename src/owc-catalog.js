@@ -47,6 +47,7 @@ const iframeDemo = item => {
   if (item.owcType) {
     return html`
       <iframe src=${item.owcUnpkg.demoUrl}></iframe>
+      <a href=${item.owcUnpkg.demoUrl} target="_blank">Open Demo Full Screen on unpkg.com</a>
     `;
   }
   return html``;
@@ -67,14 +68,22 @@ class OwcApp extends LitElement {
     return this.shadowRoot.querySelector('select');
   }
 
+  static get styles() {
+    return owcAppStyle;
+  }
+
   constructor() {
     super();
     this.data = [];
     this.query = '';
   }
 
-  static get styles() {
-    return owcAppStyle;
+  connectedCallback() {
+    super.connectedCallback();
+    const params = new URL(window.location.href).searchParams;
+    if (params.get('q')) {
+      this.search(params.get('q'), params.get('type'));
+    }
   }
 
   render() {
@@ -177,7 +186,10 @@ class OwcApp extends LitElement {
     this.search(this.searchElement.value, this.typeElement.value);
   }
 
-  async search(query, type) {
+  async search(_query, _type) {
+    const query = _query || '';
+    const type = _type || '';
+
     this.query = query;
     this.wcType = type;
     const url = `/.netlify/functions/search?q=${query}&type=${type}`;
