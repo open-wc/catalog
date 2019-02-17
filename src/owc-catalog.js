@@ -168,7 +168,7 @@ class OwcApp extends LitElement {
   }
 
   _onSearchSubmit(e) {
-    this.search(e.detail.search, e.detail.filter);
+    this.search(e.detail.query, e.detail.filter);
   }
 
   async search(_query, _type) {
