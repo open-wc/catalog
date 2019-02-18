@@ -3,10 +3,11 @@ exports.default = {
   results: [
     {
       package: {
-        name: 'input',
+        name: '@paper/input',
         scope: 'paper',
         version: '0.0.1',
-        description: 'This is a super awesome input',
+        description:
+          'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis molestie egestas sollicitudin. Aenean eget diam ac enim condimentum cursus. Praesent sollicitudin elit non lect',
         keywords: ['lit-element-2.x'],
         date: '2019-02-02T20:02:21.156Z',
         links: {
@@ -89,7 +90,7 @@ exports.default = {
         scope: 'unscoped',
         version: '0.0.1',
         description: 'This is a super awesome select',
-        keywords: ['lit-element-2.x'],
+        keywords: ['web-component'],
         date: '2019-02-02T20:02:21.156Z',
         links: {
           npm: 'https://www.npmjs.com/package/%40open-wc%2Fpolyfills-loader',

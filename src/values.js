@@ -1,18 +1,27 @@
-import fire from './icons/fire';
-import openWcLogo from './icons/open-wc-logo';
-
 export const keywords = ['web-components', 'web-component', 'polymer'];
 export const wcTypes = [
-  { key: '', label: 'All webcomponents', icon: openWcLogo, description: 'This is', url: './' },
+  { key: '', label: 'All', icon: '', description: 'This is', url: './' },
   {
     key: 'lit-element-2.x',
-    label: 'lit-element 2.x',
-    icon: fire,
+    label: 'Lit Element 2',
+    icon: '<img src="https://img.shields.io/badge/lib-lit--element--2.x-brightgreen.svg">',
     description: 'This is',
     url: './',
   },
-  { key: 'polymer-3.x', label: 'polymer 3.x', icon: openWcLogo, description: 'This is', url: './' },
-  { key: 'stencil-0.x', label: 'stencil 0.x', icon: openWcLogo, description: 'This is', url: './' },
+  {
+    key: 'polymer-3.x',
+    label: 'Polymer 3',
+    icon: '<img src="https://img.shields.io/badge/lib-polymer--3.x-brightgreen.svg">',
+    description: 'This is',
+    url: './',
+  },
+  {
+    key: 'stencil-0.x',
+    label: 'Stencil',
+    icon: '<img src="https://img.shields.io/badge/lib-stencil--0.x-brightgreen.svg">',
+    description: 'This is',
+    url: './',
+  },
 ];
 
 // adds "special" keywords to standard keywords

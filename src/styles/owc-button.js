@@ -24,6 +24,9 @@ export default css`
     border-radius: 4px;
     padding: 8px;
     border: 1px solid #0077ff;
+    display: block;
+    text-decoration: none;
+    cursor: pointer;
   }
 
   .owc-button-filled {

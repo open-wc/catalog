@@ -2,9 +2,9 @@ import { LitElement, html } from 'lit-element';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
 
 import owcAppStyle from './owc-catalog.css.js';
-import openWcLogo from './icons/open-wc-logo.js';
 import githubIcon from './icons/github.js';
 import npmIcon from './icons/npm.js';
+import owcButtonStyles from './styles/owc-button.js';
 import { wcTypes } from './values.js';
 import './components/owc-package-search';
 
@@ -37,7 +37,7 @@ const openCodePen = item => {
     return html`
       <form action="https://codepen.io/pen/define" method="POST" target="_blank">
         <input type="hidden" name="data" value=${JSON.stringify(item.owcUnpkg.payload)} />
-        <input type="submit" value="Create New Pen with Prefilled Data" />
+        <button class="owc-button" type="submit">Playground</button>
       </form>
     `;
   }
@@ -47,8 +47,7 @@ const openCodePen = item => {
 const iframeDemo = item => {
   if (item.owcType) {
     return html`
-      <iframe src=${item.owcUnpkg.demoUrl}></iframe>
-      <a href=${item.owcUnpkg.demoUrl} target="_blank">Open Demo Full Screen on unpkg.com</a>
+      <a class="owc-button" href=${item.owcUnpkg.demoUrl} target="_blank">Demo</a>
     `;
   }
   return html``;
@@ -62,7 +61,7 @@ class OwcApp extends LitElement {
   }
 
   static get styles() {
-    return owcAppStyle;
+    return [owcButtonStyles, owcAppStyle];
   }
 
   constructor() {
@@ -98,6 +97,20 @@ class OwcApp extends LitElement {
               <a class="title__name" href=${item.package.links.npm} target="_blank">
                 ${item.package.name}
               </a>
+              ${renderType(item.owcType)}
+            </div>
+            <div class="package__content">
+              <div class="package__content__text">
+                ${item.package.description}
+              </div>
+              <div class="package__content__playground">
+                ${openCodePen(item)}
+              </div>
+              <div class="package__content__demo">
+                ${iframeDemo(item)}
+              </div>
+            </div>
+            <div class="package__footer">
               <div class="package__links">
                 <a
                   class="links__link"
@@ -124,15 +137,6 @@ class OwcApp extends LitElement {
                   ${unsafeHTML(npmIcon)}
                 </a>
               </div>
-            </div>
-            <div class="package__content">
-              ${item.package.description} ${iframeDemo(item)} ${openCodePen(item)}
-            </div>
-            <div class="package__footer">
-              <div class="package__type">
-                <span>Type:</span>
-                ${renderType(item.owcType)}
-              </div>
               <div class="package__tags">
                 <span>Tags:</span>
                 ${renderTags(item.package.keywords)}
@@ -144,21 +148,12 @@ class OwcApp extends LitElement {
     }
 
     return html`
-      <div><!-- empty for flex space-between --></div>
-
-      <div>
-        <header class="app-header">
-          ${unsafeHTML(openWcLogo)}
-          <h1>Web Component Catalog</h1>
-        </header>
-        <main>
-          <owc-package-search @package-search-submit=${this._onSearchSubmit}></owc-package-search>
-
-          <div>
-            ${list}
-          </div>
-        </main>
-      </div>
+      <owc-package-search @package-search-submit=${this._onSearchSubmit}></owc-package-search>
+      <main>
+        <div>
+          ${list}
+        </div>
+      </main>
 
       <p class="app-footer">
         🚽 Made with love by

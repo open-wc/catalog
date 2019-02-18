@@ -1,5 +1,8 @@
 import { LitElement, html, css } from 'lit-element';
+import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+
 import { wcTypes } from '../values.js';
+import openWcLogo from '../icons/open-wc-logo.js';
 import owcButtonStyles from '../styles/owc-button.js';
 import owcSelectStyles from '../styles/owc-select.js';
 
@@ -16,9 +19,55 @@ class OwcPackageSearch extends LitElement {
       owcButtonStyles,
       owcSelectStyles,
       css`
+        :host {
+          display: flex;
+          padding: 20px 20px 15px 20px;
+          border-bottom: 1px solid #ccc;
+        }
+
+        h1 {
+          display: none;
+        }
+
+        .app-header__logo {
+          margin-right: 20px;
+        }
+
+        svg {
+          width: 50px;
+          animation: app-logo-spin infinite 20s linear;
+        }
+
+        form {
+          flex-grow: 1;
+          max-width: 800px;
+        }
+
+        .input-wrapper {
+          display: flex;
+        }
+
+        .filter-wrapper {
+          margin-top: 20px;
+        }
+
+        .filter-wrapper a {
+          font-size: 14px;
+          color: #555;
+          text-decoration: none;
+          padding: 0 10px;
+        }
+
+        .filter-wrapper a.selected,
+        .filter-wrapper a:hover {
+          padding-bottom: 12px;
+          border-bottom: 3px solid;
+        }
+
         input {
           outline: none;
           border: none;
+          margin-right: 15px;
         }
 
         input {
@@ -45,7 +94,12 @@ class OwcPackageSearch extends LitElement {
 
         button[type='submit'],
         select[name='type'] {
-          margin-top: 16px;
+          margin-right: 10px;
+          height: 34px;
+          margin-top: 8px;
+        }
+        #filterSelect {
+          display: none;
         }
       `,
     ];
@@ -53,18 +107,49 @@ class OwcPackageSearch extends LitElement {
 
   render() {
     return html`
+      <div class="app-header__logo">
+        <h1>Web Component Catalog</h1>
+        ${unsafeHTML(openWcLogo)}
+      </div>
       <form @submit=${this._onSubmit}>
-        <input id="searchInput" placeholder="Search" autofocus />
+        <div class="input-wrapper">
+          <input id="searchInput" placeholder="Search" autofocus value="::mocks" />
 
-        <button class="owc-button owc-button-filled" type="submit" @click=${this._search}>
-          Search
-        </button>
-
+          <button class="owc-button owc-button-filled" type="submit" @click=${this._search}>
+            Search
+          </button>
+        </div>
+        <div class="filter-wrapper">
+          ${this.filterDisplay()}
+        </div>
         <select id="filterSelect" class="owc-select" name="filter">
           ${filterOptions}
         </select>
       </form>
     `;
+  }
+
+  clickFilter(ev, type) {
+    this.filterElement.value = type.key;
+    this._onSubmit(ev);
+    this.requestUpdate();
+  }
+
+  filterDisplay() {
+    /* eslint-disable lit/no-template-bind */
+    // TODO: howto pass properties with this rule?
+    return wcTypes.map(
+      type =>
+        html`
+          <a
+            href="#"
+            class=${this.filterElement && this.filterElement.value === type.key ? 'selected' : ''}
+            @click=${ev => this.clickFilter(ev, type)}
+            >${type.label}</a
+          >
+        `,
+    );
+    /* eslint-enable lit/no-template-bind */
   }
 
   get searchElement() {

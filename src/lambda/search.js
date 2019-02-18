@@ -3,6 +3,7 @@ import {
   processResponseJson,
   handleMocks,
   aRequest,
+  shouldMock,
 } from '../lambda-helpers/helpers.js';
 
 // const url = 'https://www.npmjs.com/search?q=keywords%3Aopen-wc';
@@ -17,16 +18,21 @@ async function doRequest(url) {
 
 export function handler(event, context, callback) {
   const { q: query, type } = event.queryStringParameters;
-  if (handleMocks(query, callback)) {
-    return;
-  }
 
-  const searchUrl = generateUrl(api, query, type);
-
-  doRequest(searchUrl).then(jsonData => {
-    callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(jsonData, null, 2),
+  if (shouldMock(query)) {
+    handleMocks(query).then(mockData => {
+      callback(null, {
+        statusCode: 200,
+        body: JSON.stringify(mockData, null, 2),
+      });
     });
-  });
+  } else {
+    const searchUrl = generateUrl(api, query, type);
+    doRequest(searchUrl).then(jsonData => {
+      callback(null, {
+        statusCode: 200,
+        body: JSON.stringify(jsonData, null, 2),
+      });
+    });
+  }
 }

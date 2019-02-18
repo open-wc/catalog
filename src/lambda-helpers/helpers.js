@@ -1,5 +1,7 @@
 import https from 'https';
 import { keywords, wcTypes } from '../values.js';
+import mockSingle from '../mocks/single.js';
+import mocks from '../mocks/mocks';
 
 export const aRequest = url =>
   new Promise((resolve, reject) => {
@@ -31,8 +33,8 @@ export const generateUrl = (api, query, type = '') => {
 async function loadDemoUrl(meta, demoUrl) {
   meta.owcDemoFullHtml = await aRequest(demoUrl); // eslint-disable-line no-param-reassign
   if (meta.owcDemoFullHtml) {
+    // eslint-disable-next-line no-param-reassign
     meta.owcUnpkg.payload = {
-      // eslint-disable-line no-param-reassign
       title: 'New Pen!',
       html: meta.owcDemoFullHtml.replace('"../', `"${meta.owcUnpkg.root}`), // TODO: needs to be better extracted
     };
@@ -73,24 +75,23 @@ export const processResponseJson = async json => {
   /* eslint-enable no-param-reassign */
 };
 
-export const handleMocks = (query, callback) => {
+export const shouldMock = query => query === '::mock-single' || query === '::mocks';
+
+export const handleMocks = async query => {
   let mock = false;
   switch (query) {
     case '::mock-single':
-      mock = require('../mocks/single.js'); // eslint-disable-line
+      mock = mockSingle;
       break;
     case '::mocks':
-      mock = require('../mocks/three.js'); // eslint-disable-line
+      mock = mocks;
       break;
     default:
       mock = false;
   }
+
   if (mock) {
-    callback(null, {
-      statusCode: 200,
-      body: JSON.stringify(processResponseJson(mock.default), null, 2),
-    });
-    return true;
+    return processResponseJson(mock.default);
   }
 
   return false;
