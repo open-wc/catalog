@@ -21,6 +21,8 @@ class OwcPackageSearch extends LitElement {
       css`
         :host {
           display: flex;
+          margin: auto;
+          width: 60vw;
           padding: 20px 20px 15px 20px;
           border-bottom: 1px solid #ccc;
         }
@@ -40,6 +42,7 @@ class OwcPackageSearch extends LitElement {
 
         form {
           flex-grow: 1;
+          width: 60vw;
           max-width: 800px;
         }
 
@@ -60,8 +63,9 @@ class OwcPackageSearch extends LitElement {
 
         .filter-wrapper a.selected,
         .filter-wrapper a:hover {
-          padding-bottom: 12px;
+          padding-bottom: 13px;
           border-bottom: 3px solid;
+          border-bottom-color: #aa00ff;
         }
 
         input {
