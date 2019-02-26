@@ -13,11 +13,11 @@ class OwcCatalogItem extends LitElement {
       size: { type: String },
       gzip: { type: String },
       version: { type: String },
-      iframeDemo: {},
+      iframedemo: {},
       codepen: {},
       owcType: {},
       links: { type: Object },
-      unpkgRoot: {}
+      unpkgroot: {}
     };
   }
 
@@ -32,7 +32,7 @@ class OwcCatalogItem extends LitElement {
     this.packageName = '';
     this.size = 0;
     this.gzip = 0;
-    this.unpkgRoot = '';
+    this.unpkgroot = '';
   }
 
   connectedCallback() {
@@ -228,13 +228,14 @@ class OwcCatalogItem extends LitElement {
   }
 
   render() {
+    console.log(this.iframeDemo);
     return html`
       <h1><a href="${this.links.npm}" target="_blank">${this.title}</a></h1>
       <div class="catalog-item">
         <div class="catalog-item-top-row">
           <div class="catalog-item-logos">
             <a href=${this.links.repository} target="_blank"><github-logo></github-logo></a>
-            <a href=${this.unpkgRoot} target="_blank"><unpkg-logo></unpkg-logo></a>
+            <a href=${this.unpkgroot} target="_blank"><unpkg-logo></unpkg-logo></a>
             <a href=${this.links.npm} target="_blank"><npm-logo></npm-logo></a>
           </div>
           <div class="catalog-item-pkgfobia">
@@ -255,7 +256,7 @@ class OwcCatalogItem extends LitElement {
               <input type="hidden" name="data" value=${JSON.stringify(this.codepen)} />
               <button class="owc-button" type="submit">Playground</button>
             </form>
-            <a href=${this.iframeDemo} target="_blank">Demo</a>
+            <a href=${this.iframedemo} target="_blank">Demo</a>
           </div>
         </div>
 
