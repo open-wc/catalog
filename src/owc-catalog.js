@@ -80,8 +80,8 @@ class OwcApp extends LitElement {
             .tags=${item.package.keywords}
             .description=${item.package.description}
             .owcType=${item.owcType}
-            .unpkgRoot=${item.owcUnpkg.root}
-            .iframeDemo=${item.owcUnpkg.demoUrl}
+            .unpkgroot=${item.owcUnpkg.root}
+            .iframedemo=${item.owcUnpkg.demoUrl}
             .codepen=${item.owcUnpkg.payload}
             .links=${item.package.links}
           >
