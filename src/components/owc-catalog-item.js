@@ -228,7 +228,6 @@ class OwcCatalogItem extends LitElement {
   }
 
   render() {
-    console.log(this.iframeDemo);
     return html`
       <h1><a href="${this.links.npm}" target="_blank">${this.title}</a></h1>
       <div class="catalog-item">
