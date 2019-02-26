@@ -72,7 +72,6 @@ class OwcApp extends LitElement {
     if (this.data.length > 0) {
       list = this.data.map(
         item => {
-          console.log(item);
           return html`
           <owc-catalog-item
             .title=${item.package.name}
