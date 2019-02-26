@@ -17,6 +17,7 @@ class OwcCatalogItem extends LitElement {
       codepen: {},
       owcType: {},
       links: { type: Object },
+      unpkgRoot: {}
     };
   }
 
@@ -27,9 +28,11 @@ class OwcCatalogItem extends LitElement {
     this.description = '';
     this.links = {};
     this.tags = [];
+    this.iframeDemo = '';
     this.packageName = '';
     this.size = 0;
     this.gzip = 0;
+    this.unpkgRoot = '';
   }
 
   connectedCallback() {
@@ -231,7 +234,7 @@ class OwcCatalogItem extends LitElement {
         <div class="catalog-item-top-row">
           <div class="catalog-item-logos">
             <a href=${this.links.repository} target="_blank"><github-logo></github-logo></a>
-            <a href=${this.links.repository} target="_blank"><unpkg-logo></unpkg-logo></a>
+            <a href=${this.unpkgRoot} target="_blank"><unpkg-logo></unpkg-logo></a>
             <a href=${this.links.npm} target="_blank"><npm-logo></npm-logo></a>
           </div>
           <div class="catalog-item-pkgfobia">
