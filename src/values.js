@@ -1,4 +1,14 @@
-export const keywords = ['web-components', 'web-component', 'polymer'];
+export const keywords = [
+  'web-components',
+  'web-component',
+  'polymer',
+  'webcomponent',
+  'webcomponents',
+  'custom-element',
+  'customelement',
+  'custom-elements',
+  'customelements',
+];
 export const wcTypes = [
   { key: '', label: 'All', icon: '', description: 'This is', url: './' },
   {
