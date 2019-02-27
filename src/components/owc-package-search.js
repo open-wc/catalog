@@ -117,7 +117,7 @@ class OwcPackageSearch extends LitElement {
       </div>
       <form @submit=${this._onSubmit}>
         <div class="input-wrapper">
-          <input id="searchInput" placeholder="Search" autofocus value="::mocks" />
+          <input id="searchInput" placeholder="Search" autofocus autocomplete="off" />
 
           <button class="owc-button owc-button-filled" type="submit" @click=${this._search}>
             Search

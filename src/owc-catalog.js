@@ -71,19 +71,21 @@ class OwcApp extends LitElement {
 
     if (this.data.length > 0) {
       list = this.data.map(
-        item => html`
+        item => {
+          return html`
           <owc-catalog-item
             .title=${item.package.name}
             .version=${item.package.version}
             .tags=${item.package.keywords}
             .description=${item.package.description}
             .owcType=${item.owcType}
-            .iframeDemo=${item.owcUnpkg.demoUrl}
+            .unpkgroot=${item.owcUnpkg.root}
+            .iframedemo=${item.owcUnpkg.demoUrl}
             .codepen=${item.owcUnpkg.payload}
             .links=${item.package.links}
           >
           </owc-catalog-item>
-        `,
+        `},
       );
     }
 
