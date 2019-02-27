@@ -4,10 +4,8 @@ export const keywords = [
   'polymer',
   'webcomponent',
   'webcomponents',
-  'custom-element',
   'customelement',
-  'custom-elements',
-  'customelements',
+  'custom-element',
 ];
 export const wcTypes = [
   { key: '', label: 'All', icon: '', description: 'This is', url: './' },
