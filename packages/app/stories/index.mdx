@@ -1,0 +1,38 @@
+import { Meta, Story, Preview, DocsStory } from '@storybook/addon-docs/blocks';
+
+# Catalog App
+
+This is the main entry point.
+
+## Start
+
+When you "boot up" you just see a the input to start searching.
+This is intentionally kept very minimal to make it easy to get started.
+
+<Preview withToolbar>
+  <Story id="app--standard" />
+</Preview>
+
+## Loading
+
+Once you enter your search entry and hit enter the spinning starts.
+
+<Preview withToolbar>
+  <Story id="app--loading-first-time" />
+</Preview>
+
+## Result
+
+Which will bring you to your first result.
+
+<Preview withToolbar>
+  <Story id="app--single-result" />
+</Preview>
+
+## Retrigger Search
+
+If you retrigger the search a spinner will appear on top of it.
+
+<Preview withToolbar>
+  <Story id="app--loading-first-time" />
+</Preview>

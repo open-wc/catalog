@@ -1,0 +1,49 @@
+import { Meta, Story, Preview, DocsStory } from '@storybook/addon-docs/blocks';
+
+# Intro
+
+The intro is a full view component which displays a single search input.
+On submit it fires a search event.
+
+## Standard Usage
+
+<Preview withToolbar>
+  <Story id="intro--standard" />
+</Preview>
+
+## Properties
+
+| Name        | Type   | Description                                     |
+| ----------- | ------ | ----------------------------------------------- |
+| searchValue | string | The current filled in value of the search input |
+
+## Events
+
+| Name   | Description                          |
+| ------ | ------------------------------------ |
+| search | Fires when the user wishes to search |
+
+## Property Examples
+
+### searchValue
+
+** getting search value **
+
+```js
+// user writes "button" into the input field
+expect(el.searchValue).to.equal('button');
+```
+
+** search value in templates **
+
+```js
+<owc-cat-intro .searchValue=${"button"}></owc-cat-intro>
+// users sees "button" filled in the search input
+```
+
+** setting search value **
+
+```js
+el.searchValue = 'button';
+// users sees "button" filled in the search input
+```

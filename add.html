@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Put your description here." />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        background-color: #fcfcfc;
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+      }
+    </style>
+    <title>Web Components Catalog</title>
+  </head>
+  <body>
+    <form action="/.netlify/functions/check-package-with-version">
+      <label>Index your package (name@version)</label>
+      <input type="text" name="id" />
+      <p>
+        You will need to have a custom-element.json see
+        <a href="https://github.com/open-wc/catalog" target="_blank">help</a>.
+      </p>
+    </form>
+  </body>
+</html>

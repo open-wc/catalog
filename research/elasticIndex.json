@@ -1,0 +1,24 @@
+{
+  "id": "test-wc-card$0.0.6",
+  "name": "test-wc-card",
+  "version": "0.0.6",
+  "description": "Some text about",
+  "authors": ["Thomas Allmer<d4kmor@gmail.com>", "open-wc"],
+  "homepage": "http://foo.com",
+  "licence": "MIT",
+  "module": true,
+  "main": true,
+  "dependencies": [
+    "lit-element$2.x.x",
+    "lit-element$2.0.x",
+    "lit-element$2.0.1",
+    "lit-element$^2.0.1",
+    "lit-html$1.x.x",
+    "lit-html$1.0.x",
+    "lit-html$1.0.0",
+    "lit-html$^1.0.0"
+  ],
+  "customElements": ["test-wc-card", "other-card"],
+  "attributes": ["header", "foo"],
+  "properties": ["side"]
+}

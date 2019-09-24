@@ -13,52 +13,69 @@
   "private": true,
   "scripts": {
     "start": "run-p start:app start:lambda",
-    "start:app": "owc-dev-server -o src",
+    "start:app": "es-dev-server --app-index index.html --node-resolve --watch --open",
     "start:lambda": "netlify-lambda serve src/lambda",
-    "start:dev": "webpack-dev-server --mode development --open",
-    "start:dev:es5": "webpack-dev-server --mode development --es5",
-    "start:prod": "http-server dist/ -o",
-    "build": "run-p build:app build:lambda",
-    "build:app": "webpack --mode production",
+    "build": "npm run build:lambda && npm run build:app && cp ./add.html ./dist/add.html && npm run build:storybook",
     "build:lambda": "netlify-lambda build src/lambda",
-    "test": "karma start",
-    "test:watch": "karma start --auto-watch=true --single-run=false",
-    "test:es5": "karma start karma.es5.config.js",
-    "test:es5:watch": "karma start karma.es5.config.js --auto-watch=true --single-run=false",
-    "test:es5:bs": "karma start karma.es5.bs.config.js",
+    "build:app": "rimraf dist && rollup -c rollup.config.js",
     "lint": "npm run lint:eslint && npm run lint:prettier",
-    "lint:eslint": "eslint --ext .js,.html .",
-    "lint:prettier": "prettier '**/*.js' --list-different || (echo '↑↑ these files are not prettier formatted ↑↑' && exit 1)",
+    "lint:eslint": "eslint --ext .js,.html . --ignore-path .gitignore",
+    "lint:prettier": "prettier \"**/*.js\" --check --ignore-path .gitignore",
     "format": "npm run format:eslint && npm run format:prettier",
-    "format:eslint": "eslint --ext .js,.html . --fix",
-    "format:prettier": "prettier '**/*.js' --write"
+    "format:eslint": "eslint --ext .js,.html . --fix --ignore-path .gitignore",
+    "format:prettier": "prettier \"**/*.js\" --write --ignore-path .gitignore",
+    "start:build": "cd dist && es-dev-server --open",
+    "storybook": "start-storybook -p 9001",
+    "build:storybook": "build-storybook -o ./dist/storybook"
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-conventional": "^7.0.0",
-    "@open-wc/building-webpack": "^0.1.3",
-    "@open-wc/eslint-config": "^0.3.0",
-    "@open-wc/polyfills-loader": "^0.2.1",
-    "@open-wc/prettier-config": "^0.1.0",
-    "@open-wc/testing": "^0.9.0",
-    "@open-wc/testing-karma": "^0.4.0",
-    "@open-wc/testing-karma-bs": "^0.2.0",
-    "eslint-plugin-lit": "^0.5.0",
-    "http-proxy-middleware": "^0.19.1",
-    "http-server": "^0.11.1",
+    "@babel/core": "^7.3.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.2.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/preset-env": "^7.0.0",
+    "@open-wc/building-rollup": "^0.9.0",
+    "@open-wc/eslint-config": "^1.0.0",
+    "@open-wc/prettier-config": "^0.1.10",
+    "@storybook/addon-a11y": "~5.2.0",
+    "@storybook/addon-actions": "~5.2.0",
+    "@storybook/addon-backgrounds": "~5.2.0",
+    "@storybook/addon-console": "^1.1.0",
+    "@storybook/addon-docs": "^5.2.1",
+    "@storybook/addon-knobs": "~5.2.0",
+    "@storybook/addon-links": "~5.2.0",
+    "@storybook/addon-notes": "~5.2.0",
+    "@storybook/addon-storysource": "~5.2.0",
+    "@storybook/addon-viewport": "~5.2.0",
+    "@storybook/polymer": "~5.2.0",
+    "@storybook/source-loader": "~5.2.0",
+    "@types/storybook__addon-actions": "^3.4.1",
+    "@types/storybook__addon-backgrounds": "^3.2.1",
+    "@types/storybook__addon-links": "^3.3.3",
+    "@types/storybook__addon-notes": "^3.3.3",
+    "@webcomponents/webcomponentsjs": "^2.2.0",
+    "babel-loader": "^8.0.0",
+    "es-dev-server": "^1.18.0",
     "husky": "^1.0.0",
+    "koa-proxies": "^0.8.1",
     "lint-staged": "^8.0.0",
-    "netlify-lambda": "^1.4.2",
-    "node-fetch": "^2.3.0",
+    "moment": "^2.0.0",
+    "netlify-lambda": "^1.6.3",
     "npm-run-all": "^4.1.5",
-    "owc-dev-server": "^0.1.5",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.1.14",
-    "webpack-merge": "^4.1.5"
+    "polymer-webpack-loader": "^2.0.0",
+    "rimraf": "^2.6.3",
+    "rollup": "^1.15.4"
   },
   "dependencies": {
+    "@github/time-elements": "^3.0.7",
+    "@storybook/html": "^5.2.1",
+    "graphql-request": "^1.8.2",
+    "h.js": "^4.0.0",
     "lit-element": "^2.0.1",
-    "lit-html": "^1.0.0"
+    "lit-html": "^1.0.0",
+    "node-fetch": "^2.6.0",
+    "remarkable": "^2.0.0",
+    "semver": "^6.3.0",
+    "wc-spinners": "^1.0.0"
   },
   "lint-staged": {
     "*.js": [
@@ -66,5 +83,17 @@
       "prettier --write",
       "git add"
     ]
+  },
+  "eslintConfig": {
+    "extends": [
+      "@open-wc/eslint-config",
+      "eslint-config-prettier"
+    ]
+  },
+  "prettier": "@open-wc/prettier-config",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   }
 }
