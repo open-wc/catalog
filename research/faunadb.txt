@@ -1,0 +1,15 @@
+# search function
+Map(
+  Paginate(
+    Filter(
+      Match(Index("allCustomElements")),
+      Lambda(
+        "i",
+        Not(
+          Equals(FindStr(Select(["data", "name"], Get(Var("i"))), "test"), -1)
+        )
+      )
+    )
+  ),
+  Lambda("X", Get(Var("X")))
+)

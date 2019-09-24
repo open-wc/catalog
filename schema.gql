@@ -1,0 +1,32 @@
+type Package {
+  id: String! @unique
+  name: String!
+  version: String!
+  description: String
+  homepage: String
+  license: String
+  hasModule: Boolean
+  hasMain: Boolean
+  module: String
+  main: String
+  size: Int
+  sizeGzip: Int
+  githubStars: Int
+  githubWatchers: Int
+  githubForks: Int
+  githubUrl: String
+  unpkgUrl: String
+  npmUrl: String
+  packageJsonString: String
+  customElementsString: String
+  versionTime: String
+  readme: String
+  demoUrl: String
+  flattenedDependencies: String
+}
+
+type Query {
+  allPackages: [Package!]
+  packageById(id: String!): [Package!]
+  packageByName(name: String!): [Package!]
+}

@@ -1,0 +1,118 @@
+import { Meta, Story, Preview, DocsStory } from '@storybook/addon-docs/blocks';
+
+# Item
+
+This shows all the info users are actually after.
+
+## List View
+
+In the list view only the most important information is shown
+
+- Name
+- Version
+- Description
+- Highlight known libraries (like lit-element, haunted, stencil, ...)
+- Download Time (how much time it will take to download it on 3G)
+- Gzipped Size in kB
+- Github stars
+
+With this, we hope to give you all the information you need to decide which web component
+look like a good fit for your use case. For each of those, you will hopefully explore the details.
+
+#### Single item
+
+<Preview withToolbar>
+  <Story id="item--single" height="200px" />
+</Preview>
+
+#### Multiple items
+
+In most cases you will see multiple items after each other.
+
+<Preview withToolbar>
+  <Story id="item--three" />
+</Preview>
+
+## Detail View
+
+Here we are adding more information.
+
+#### Readme
+
+This renders the README.md in the root of the package.
+
+<Preview withToolbar>
+  <Story id="item--readme" height="300px" />
+</Preview>
+
+#### Demo
+
+The demo is a very important part of every web component.
+By default, if we find a `demo/index.html` file we will show it via unpkg.com with the module flag.
+We do NOT do any magic on it. e.g. you will need to make sure it works directly via unpkg.
+This usually needs to use imports directly from unpkg.
+
+So if you wanna show demos with using properties you can do it like so.
+
+```html
+<div id="demo"></div>
+
+<script type="module">
+  import { html, render } from 'https://unpkg.com/lit-html?module';
+  import '../test-wc-card.js';
+
+  const title = 'test';
+  render(
+    html`
+      <my-el .header=${title}></my-el>
+    `,
+    document.querySelector('#demo'),
+  );
+</script>
+```
+
+In case you wanna share the same demo with multiple packages you can set a `demoUrl` in your `package.json`.
+This demo url will take precedence over the default url.
+
+```js
+// package.json
+{
+  "demoUrl": "http://this-is-my-demo-2.0.1.domain.com"
+}
+```
+
+Note that this means that you will need to use versioning yourself if you wish to have different demos for different versions.
+
+If your demo becomes big you can also publish it as a separate npm package and link it with a demoUrl.
+For example you want to published `@lib/my-button@1.2.2` then you could publish `@lib-demos/my-button@1.2.2`.
+So setting the `demoUrl` on `@lib/my-button` to `https://unpkg.com/@lib-demos/my-button@1.2.2/index.html?module` will give you versioned
+demos without adding weight to your source package.
+
+Be sure to NOT have a `custom-element.json` in `@lib-demos` as you don't want to have this package indexed in the catalog.
+
+Ok finally let's look at an actual demo
+
+<Preview>
+  <Story id="item--demo" height="400px" />
+</Preview>
+
+#### Links
+
+Here we link to some of the resource you might be interested in
+
+- Github
+- Npm
+- Bundlephobia
+- Unpkg
+
+<Preview withToolbar>
+  <Story id="item--links" height="300px" />
+</Preview>
+
+#### Source
+
+Directly look at the source files at unpkg.com
+
+<Preview withToolbar>
+  <Story id="item--source" />
+</Preview>

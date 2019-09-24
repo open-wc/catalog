@@ -1,0 +1,66 @@
+type Package {
+  id: String! @unique
+  name: String!
+  version: String!
+  time: String
+  description: String
+  homepage: String
+  license: String
+  hasModule: Boolean
+  hasMain: Boolean
+  module: String
+  main: String
+  size: Int
+  sizeGzip: Int
+  packageJsonString: String
+  customElementsString: String
+  customElements: [CustomElement!]! @relation
+}
+
+type ValueSet {
+  name: String!
+  attribute: Attribute
+  property: Property
+}
+
+type Attribute {
+  name: String!
+  type: String!
+  values: [ValueSet!] @relation
+  customElement: CustomElement
+  deprecated: Boolean
+  deprecatedMessage: String
+}
+
+type Property {
+  name: String!
+  type: String!
+  attribute: String
+  reflect: Boolean
+  values: [ValueSet!] @relation
+  customElement: CustomElement
+  deprecated: Boolean
+  deprecatedMessage: String
+}
+
+type CustomElement {
+  id: String! @unique
+  name: String!
+  attributes: [Attribute!]! @relation
+  properties: [Property!]! @relation
+  package: Package
+}
+
+type Query {
+  allAttributes: [Attribute!]
+  allProperties: [Property!]
+  allValueSets: [ValueSet!]
+
+  allPackages: [Package!]
+  packageById(id: String!): [Package!]
+  packageByName(name: String!): [Package!]
+
+  allCustomElements: [CustomElement!]
+  customElementById(id: String!): [CustomElement!]
+  customElementByName(name: String!): [CustomElement!]
+}
