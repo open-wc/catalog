@@ -1,4 +1,4 @@
-import { LitElement, html, css } from 'lit-element';
+import { LitElement, html } from 'lit-element';
 
 import '@github/time-elements';
 
@@ -8,6 +8,8 @@ import './owc-tabs.js';
 import './logos/logo-github.js';
 import './logos/logo-npm.js';
 import './logos/logo-unpkg.js';
+
+import owcCatItemStyle from './owc-cat-item.css.js';
 
 const githubStar = html`
   <svg viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true">
@@ -47,12 +49,13 @@ export class OwcCatItem extends LitElement {
     this.showDetails = false;
     /**
      * Index of the open details tab
-     * 0. Readme
-     * 1. Demo
-     * 2. Links
-     * 3. Source
+     * 0. Info
+     * 1. Readme
+     * 2. Demo
+     * 3. Links
+     * 4. Source
      */
-    this.detailsTabIndex = 0;
+    this.detailsTabIndex = 1;
     /**
      * Url that get shown in the demo tab
      */
@@ -89,6 +92,9 @@ export class OwcCatItem extends LitElement {
     if (!ev.path.includes(this.shadowRoot.querySelector('#details'))) {
       this.toggle(ev);
     }
+    if (ev.path.includes(this.shadowRoot.querySelector('#details h1'))) {
+      this.toggle(ev);
+    }
   }
 
   toggle(ev) {
@@ -121,48 +127,100 @@ export class OwcCatItem extends LitElement {
     `;
   }
 
+  __syncDetailsTabIndex() {
+    this.detailsTabIndex = this.shadowRoot.querySelector('owc-tabs').activeIndex;
+  }
+
   render() {
     return html`
-      <div id="info">
-        <h1>
-          <a href="#details">${this.name}@${this.version}</a>
-        </h1>
+      <div id="overview">
+        <div id="info">
+          <h1>
+            <a href="#details">${this.name}@${this.version}</a>
+          </h1>
 
-        <div id="description">
-          ${this.description}
+          <div id="description">
+            ${this.description}
+          </div>
+
+          <div id="badges">
+            ${this.renderRegisteredTypes()}
+          </div>
         </div>
 
-        <div id="badges">
-          ${this.renderRegisteredTypes()}
+        <div id="lastRelease">
+          <p class="big big--not-so-much">
+            <time-ago datetime=${this.versionTime}></time-ago>
+          </p>
+          <p class="small desktop">released on npm</p>
         </div>
-      </div>
 
-      <div id="lastRelease">
-        <p class="big big--not-so-much">
-          <time-ago datetime=${this.versionTime}></time-ago>
-        </p>
-        <p class="small desktop">released on npm</p>
-      </div>
+        <div id="downloadTime">
+          <p class="big">
+            ${((this.sizeGzip / 1024 / 30) * 1000).toFixed(2)}<span class="unit">ms</span>
+          </p>
+          <p class="small desktop" title="3G 50kB/s">download time</p>
+        </div>
 
-      <div id="downloadTime">
-        <p class="big">
-          ${((this.sizeGzip / 1024 / 30) * 1000).toFixed(2)}<span class="unit">ms</span>
-        </p>
-        <p class="small desktop" title="3G 50kB/s">download time</p>
-      </div>
+        <div id="sizeGzip">
+          <p class="big">${(this.sizeGzip / 1024).toFixed(2)}<span class="unit">kB</span></p>
+          <p class="small desktop">size gzipped</p>
+        </div>
 
-      <div id="sizeGzip">
-        <p class="big">${(this.sizeGzip / 1024).toFixed(2)}<span class="unit">kB</span></p>
-        <p class="small desktop">size gzipped</p>
-      </div>
-
-      <div id="githubStars">
-        <p class="big">${this.githubStars}<span class="unit">${githubStar}</span></p>
-        <p class="small desktop">on Github</p>
+        <div id="githubStars">
+          <p class="big">${this.githubStars}<span class="unit">${githubStar}</span></p>
+          <p class="small desktop">on Github</p>
+        </div>
       </div>
 
       <div id="details">
-        <owc-tabs .activeIndex=${this.detailsTabIndex}>
+        <h1 class="mobile">
+          <a href="#details">${this.name}@${this.version}</a>
+        </h1>
+
+        <owc-tabs
+          .activeIndex=${this.detailsTabIndex}
+          @activeIndexChanged=${this.__syncDetailsTabIndex}
+        >
+          <div slot="tab" class="mobile">Info</div>
+          <div slot="tab-content" id="info-tab" class="mobile">
+            <div class="info-grid">
+              <div id="info">
+                <div id="description">
+                  ${this.description}
+                </div>
+
+                <div id="badges">
+                  ${this.renderRegisteredTypes()}
+                </div>
+              </div>
+
+              <div id="lastRelease">
+                <p class="big big--not-so-much">
+                  <time-ago datetime=${this.versionTime}></time-ago>
+                </p>
+                <p class="small desktop">released on npm</p>
+              </div>
+
+              <div id="downloadTime">
+                <p class="big">
+                  ${((this.sizeGzip / 1024 / 30) * 1000).toFixed(2)}<span class="unit">ms</span>
+                </p>
+                <p class="small desktop" title="3G 50kB/s">download time</p>
+              </div>
+
+              <div id="sizeGzip">
+                <p class="big">${(this.sizeGzip / 1024).toFixed(2)}<span class="unit">kB</span></p>
+                <p class="small desktop">size gzipped</p>
+              </div>
+
+              <div id="githubStars">
+                <p class="big">${this.githubStars}<span class="unit">${githubStar}</span></p>
+                <p class="small desktop">on Github</p>
+              </div>
+            </div>
+          </div>
+
           <div slot="tab">Readme</div>
           <div slot="tab-content">
             <remarkable-markdown>
@@ -224,221 +282,7 @@ export class OwcCatItem extends LitElement {
   }
 
   static get styles() {
-    return [
-      css`
-        :host {
-          --owc-blue: #217ff9;
-          --owc-purple: #aa00ff;
-          text-align: left;
-          display: grid;
-          margin-bottom: 15px;
-          font-size: 15px;
-          padding: 15px;
-          background-color: white;
-          box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.2);
-          align-items: center;
-          min-height: 85px;
-          box-sizing: border-box;
-        }
-
-        h1 {
-          color: var(--owc-blue);
-          margin-top: 0;
-          margin-bottom: 10px;
-          margin-right: 30px;
-          font-family: 'Roboto';
-          font-size: 22px;
-        }
-
-        h1 a {
-          color: var(--owc-blue);
-          text-decoration: none;
-        }
-
-        h1 a:hover {
-          text-decoration: underline;
-        }
-
-        .big {
-          font-size: 22px;
-          font-weight: bold;
-          margin-bottom: 4px;
-        }
-
-        .big--not-so-much {
-          font-size: 20px;
-        }
-
-        .small {
-          font-size: 13px;
-        }
-
-        .unit {
-          color: #777;
-          fill: #777;
-          font-size: 18px;
-        }
-
-        a {
-          text-decoration: none;
-          color: inherit;
-        }
-
-        p {
-          margin: 0;
-          text-align: center;
-        }
-
-        iframe {
-          width: 100%;
-          border: none;
-          height: 60vh;
-        }
-
-        #badges {
-          margin-top: 10px;
-        }
-
-        .desktop {
-          display: none;
-        }
-
-        #details {
-          display: none;
-        }
-
-        :host([show-details]) #details {
-          display: block;
-        }
-
-        :host([show-details]) h1 {
-          margin-bottom: 0;
-        }
-
-        :host([show-details]) #lastRelease,
-        :host([show-details]) #downloadTime,
-        :host([show-details]) #sizeGzip,
-        :host([show-details]) #githubStars,
-        :host([show-details]) #description,
-        :host([show-details]) #badges {
-          display: none;
-        }
-
-        /* Grid */
-
-        #info {
-          grid-area: info;
-        }
-
-        #lastRelease {
-          grid-area: lastRelease;
-          min-width: 100px;
-        }
-
-        #downloadTime {
-          grid-area: downloadTime;
-        }
-
-        #sizeGzip {
-          grid-area: sizeGzip;
-        }
-
-        #githubStars {
-          grid-area: githubStars;
-        }
-
-        #details {
-          grid-area: details;
-        }
-
-        #links {
-          display: grid;
-          grid-template-columns: 130px 130px;
-          grid-gap: 28px;
-        }
-
-        .link {
-          border: 1px solid #ccc;
-          width: 130px;
-          height: 130px;
-        }
-
-        .link a {
-          display: flex;
-          flex-flow: column;
-          height: 100%;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .link__logo {
-          width: 70px;
-          height: 70px;
-          margin-bottom: 10px;
-        }
-
-        :host {
-          grid-gap: 5px;
-          grid-template-areas:
-            'info info'
-            'lastRelease githubStars'
-            'downloadTime sizeGzip';
-        }
-
-        :host([show-details]) {
-          grid-template-areas:
-            'info info'
-            'lastRelease githubStars'
-            'downloadTime sizeGzip'
-            'details details';
-        }
-
-        .fake-url-bar {
-          border: 7px solid #929292;
-          display: block;
-          padding: 5px;
-        }
-
-        @media only screen and (min-width: 768px) {
-          h1 {
-            font-size: 26px;
-          }
-
-          #links {
-            grid-template-columns: 130px 130px 130px 130px;
-          }
-
-          :host {
-            border-radius: 10px;
-            grid-gap: 20px;
-            grid-template-areas: 'info lastRelease downloadTime sizeGzip githubStars';
-          }
-
-          :host([show-details]) {
-            grid-template-areas:
-              'info lastRelease downloadTime sizeGzip githubStars'
-              'details details details details details';
-          }
-
-          :host([show-details]) h1 {
-            margin-bottom: 10px;
-          }
-
-          :host([show-details]) #lastRelease,
-          :host([show-details]) #downloadTime,
-          :host([show-details]) #sizeGzip,
-          :host([show-details]) #githubStars,
-          :host([show-details]) #description,
-          :host([show-details]) #badges {
-            display: block;
-          }
-
-          .desktop {
-            display: block;
-          }
-        }
-      `,
-    ];
+    return [owcCatItemStyle];
   }
 }
 

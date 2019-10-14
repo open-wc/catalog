@@ -30,6 +30,9 @@ async function getSizes(name, version) {
   };
 }
 
+// TODO: get downloads from NPM
+// https://github.com/npm/registry/blob/master/docs/download-counts.md
+
 // TODO: will need to rotate Github API keys because of rate limits
 // potentially switch to v4 API with GraphQL (rate limits are worse so only if queried info is worth it)
 // https://developer.github.com/v4/explorer/
