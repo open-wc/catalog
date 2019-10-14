@@ -6,6 +6,7 @@ export default css`
     display: flex;
     flex-flow: column;
     min-height: 100vh;
+    background: #eee;
   }
 
   a {
@@ -16,7 +17,8 @@ export default css`
     display: flex;
     flex-grow: 1;
     flex-flow: column;
-    margin: 10px auto 0 auto;
+    margin: 0 auto;
+    padding-top: 10px;
   }
 
   main {
@@ -64,12 +66,15 @@ export default css`
   }
 
   @media only screen and (min-width: 420px) {
+    :host {
+      background: #f7f7f7;
+    }
+
     #content {
       flex-flow: row;
-      padding: 0 20px;
+      padding: 20px;
 
       max-width: 1080px;
-      margin-top: 20px;
     }
   }
 `;

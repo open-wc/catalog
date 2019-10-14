@@ -26,6 +26,7 @@ export class OwcTabs extends LitElement {
     const foundIndex = this.tabs.indexOf(ev.path[0]);
     if (foundIndex !== -1) {
       this.activeIndex = foundIndex;
+      this.dispatchEvent(new Event('activeIndexChanged'));
     }
   }
 
@@ -84,7 +85,7 @@ export class OwcTabs extends LitElement {
         cursor: pointer;
         padding-bottom: 7px;
         margin-bottom: -2px;
-        margin-right: 15px;
+        margin-right: 13px;
         text-transform: uppercase;
       }
 
