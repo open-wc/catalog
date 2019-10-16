@@ -15,17 +15,6 @@ export default css`
     display: block;
   }
 
-  #overview,
-  .info-grid {
-    display: grid;
-    grid-gap: 5px;
-    grid-template-areas:
-      'info info'
-      'lastRelease githubStars'
-      'downloadTime sizeGzip';
-    align-items: center;
-  }
-
   h1 {
     color: var(--owc-blue);
     margin-top: 0;
@@ -116,17 +105,32 @@ export default css`
 
   /* Grid */
 
+  #overview,
+  .info-grid {
+    display: grid;
+    grid-gap: 3px 10px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+      'info info info'
+      'dependencies githubStars lastRelease'
+      'downloadsNpm sizeGzip lastRelease';
+    align-items: center;
+  }
+
   #info {
     grid-area: info;
   }
 
   #lastRelease {
     grid-area: lastRelease;
-    min-width: 100px;
   }
 
-  #downloadTime {
-    grid-area: downloadTime;
+  #downloadsNpm {
+    grid-area: downloadsNpm;
+  }
+
+  #dependencies {
+    grid-area: dependencies;
   }
 
   #sizeGzip {
@@ -167,14 +171,6 @@ export default css`
     margin-bottom: 10px;
   }
 
-  :host {
-    grid-gap: 5px;
-    grid-template-areas:
-      'info info'
-      'lastRelease githubStars'
-      'downloadTime sizeGzip';
-  }
-
   .fake-url-bar {
     border: 7px solid #929292;
     display: block;
@@ -198,7 +194,12 @@ export default css`
 
     :host #overview {
       grid-gap: 20px;
-      grid-template-areas: 'info lastRelease downloadTime sizeGzip githubStars';
+      grid-template-columns: 4fr 1fr 1fr 1fr 1fr 1fr;
+      grid-template-areas: 'info sizeGzip githubStars dependencies lastRelease downloadsNpm';
+    }
+
+    #lastRelease {
+      min-width: 100px;
     }
 
     :host([show-details]) #overview {
@@ -227,6 +228,10 @@ export default css`
 
     .desktop {
       display: block;
+    }
+
+    .desktop--inline {
+      display: inline;
     }
   }
 `;

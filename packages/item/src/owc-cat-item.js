@@ -148,18 +148,27 @@ export class OwcCatItem extends LitElement {
           </div>
         </div>
 
-        <div id="lastRelease">
-          <p class="big big--not-so-much">
-            <time-ago datetime=${this.versionTime}></time-ago>
+        <div id="dependencies">
+          <p class="big">
+            ${this.flattenedDependencies.length}<span class="unit mobile">dep</span>
           </p>
-          <p class="small desktop">released on npm</p>
+          <p class="small desktop" title="incl. nested dependencies">
+            ${this.flattenedDependencies.length === 1 ? 'dependency' : 'dependencies'}
+          </p>
         </div>
 
-        <div id="downloadTime">
+        <div id="lastRelease">
           <p class="big">
-            ${((this.sizeGzip / 1024 / 30) * 1000).toFixed(2)}<span class="unit">ms</span>
+            <time-ago datetime=${this.versionTime} class="mobile" format="micro"></time-ago>
+            <time-ago datetime=${this.versionTime} class="desktop big--not-so-much"></time-ago>
+            <span class="mobile unit">ago</span>
           </p>
-          <p class="small desktop" title="3G 50kB/s">download time</p>
+          <p class="small">released <span class="desktop desktop--inline">on npm</span></p>
+        </div>
+
+        <div id="downloadsNpm">
+          <p class="big">${1.267}<span class="unit mobile">dl</span></p>
+          <p class="small desktop" title="in the last week">downloads on npm</p>
         </div>
 
         <div id="sizeGzip">
@@ -202,7 +211,7 @@ export class OwcCatItem extends LitElement {
                 <p class="small desktop">released on npm</p>
               </div>
 
-              <div id="downloadTime">
+              <div id="downloadsNpm">
                 <p class="big">
                   ${((this.sizeGzip / 1024 / 30) * 1000).toFixed(2)}<span class="unit">ms</span>
                 </p>
