@@ -102,6 +102,7 @@ export class OwcCatItem extends LitElement {
       ev.preventDefault();
     }
     this.showDetails = !this.showDetails;
+    this.dispatchEvent(new Event('showDetailsChanged'));
   }
 
   renderRegisteredTypes() {
@@ -129,6 +130,7 @@ export class OwcCatItem extends LitElement {
 
   __syncDetailsTabIndex() {
     this.detailsTabIndex = this.shadowRoot.querySelector('owc-tabs').activeIndex;
+    this.dispatchEvent(new Event('detailsTabIndexChanged'));
   }
 
   render() {
@@ -167,7 +169,7 @@ export class OwcCatItem extends LitElement {
         </div>
 
         <div id="downloadsNpm">
-          <p class="big">${1.267}<span class="unit mobile">dl</span></p>
+          <p class="big">${'?'}<span class="unit mobile">dl</span></p>
           <p class="small desktop" title="in the last week">downloads on npm</p>
         </div>
 
@@ -193,41 +195,22 @@ export class OwcCatItem extends LitElement {
         >
           <div slot="tab" class="mobile">Info</div>
           <div slot="tab-content" id="info-tab" class="mobile">
-            <div class="info-grid">
-              <div id="info">
-                <div id="description">
-                  ${this.description}
-                </div>
-
-                <div id="badges">
-                  ${this.renderRegisteredTypes()}
-                </div>
-              </div>
-
-              <div id="lastRelease">
-                <p class="big big--not-so-much">
-                  <time-ago datetime=${this.versionTime}></time-ago>
-                </p>
-                <p class="small desktop">released on npm</p>
-              </div>
-
-              <div id="downloadsNpm">
-                <p class="big">
-                  ${((this.sizeGzip / 1024 / 30) * 1000).toFixed(2)}<span class="unit">ms</span>
-                </p>
-                <p class="small desktop" title="3G 50kB/s">download time</p>
-              </div>
-
-              <div id="sizeGzip">
-                <p class="big">${(this.sizeGzip / 1024).toFixed(2)}<span class="unit">kB</span></p>
-                <p class="small desktop">size gzipped</p>
-              </div>
-
-              <div id="githubStars">
-                <p class="big">${this.githubStars}<span class="unit">${githubStar}</span></p>
-                <p class="small desktop">on Github</p>
-              </div>
-            </div>
+            <dl>
+              <dt>Description</dt>
+              <dd>${this.description}</dd>
+              <dt>Badges</dt>
+              <dd>${this.renderRegisteredTypes()}</dd>
+              <dt>Size gzipped</dt>
+              <dd>${(this.sizeGzip / 1024).toFixed(2)}</dd>
+              <dt>Stars on Github</dt>
+              <dd>${this.githubStars}</dd>
+              <dt>Dependencies</dt>
+              <dd>${this.flattenedDependencies.length}</dd>
+              <dt>Last release on npm</dt>
+              <dd><time-ago datetime=${this.versionTime}></time-ago></dd>
+              <dt>Downloads on npm</dt>
+              <dd>?</dd>
+            </dl>
           </div>
 
           <div slot="tab">Readme</div>

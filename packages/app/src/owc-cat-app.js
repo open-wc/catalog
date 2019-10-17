@@ -8,12 +8,18 @@ import '../../intro/src/owc-cat-intro.js';
 import '../../item/src/owc-cat-item.js';
 import '../../filters/src/owc-cat-filters.js';
 
+function isMobile() {
+  return window.innerWidth < 600;
+}
+
 class OwcCatApp extends LitElement {
   static get properties() {
     return {
       data: { type: Array },
       intro: { type: Boolean },
       loading: { type: Boolean, reflect: true },
+      showMobileDetail: { type: Boolean, reflect: true, attribute: 'show-mobile-detail' },
+      detailsTabIndex: { type: Number },
     };
   }
 
@@ -39,6 +45,8 @@ class OwcCatApp extends LitElement {
     super();
     this.intro = true;
     this.loading = false;
+    this.showMobileDetail = false;
+    this.detailsTabIndex = 1;
     this.data = [];
     this.query = '';
     this.__firstSearch = true;
@@ -46,55 +54,6 @@ class OwcCatApp extends LitElement {
     this.shadowRoot.addEventListener('search', () => {
       this.search();
     });
-
-    // super simple swipe implementation for now
-    let xDown = null;
-    let yDown = null;
-    function handleTouchStart(evt) {
-      xDown = evt.touches[0].clientX;
-      yDown = evt.touches[0].clientY;
-    }
-
-    function handleTouchMove(evt) {
-      if (!xDown || !yDown) {
-        return;
-      }
-      const xUp = evt.touches[0].clientX;
-      const yUp = evt.touches[0].clientY;
-      const xDiff = xDown - xUp;
-      const yDiff = yDown - yUp;
-
-      if (Math.abs(xDiff) > Math.abs(yDiff)) {
-        if (xDiff > 0) {
-          /* left swipe */
-          const next = this.shadowRoot.querySelector('owc-cat-item[show-details] + owc-cat-item');
-          if (next) {
-            next.previousElementSibling.showDetails = false;
-            next.detailsTabIndex = next.previousElementSibling.detailsTabIndex;
-            next.showDetails = true;
-          }
-        } else {
-          /* right swipe */
-          const current = this.shadowRoot.querySelector(
-            'owc-cat-item + owc-cat-item[show-details]',
-          );
-          if (current) {
-            current.showDetails = false;
-            current.previousElementSibling.detailsTabIndex = current.detailsTabIndex;
-            current.previousElementSibling.showDetails = true;
-          }
-        }
-      } else if (yDiff > 0) {
-        /* up swipe */
-      } else {
-        /* down swipe */
-      }
-      /* reset values */
-      xDown = null;
-      yDown = null;
-    }
-    document.addEventListener('touchstart', handleTouchStart, false);
-    document.addEventListener('touchmove', handleTouchMove.bind(this), false);
   }
 
   connectedCallback() {
@@ -112,6 +71,20 @@ class OwcCatApp extends LitElement {
       list = this.data.map(
         item => html`
           <owc-cat-item
+            @showDetailsChanged=${ev => {
+              if (isMobile()) {
+                const clickedItem = ev.target;
+                this.showMobileDetail = clickedItem.showDetails;
+                this.updateComplete.then(() => {
+                  clickedItem.scrollIntoView({ behavior: 'smooth' });
+                });
+              }
+            }}
+            @detailsTabIndexChanged=${ev => {
+              if (isMobile()) {
+                this.detailsTabIndex = ev.target.detailsTabIndex;
+              }
+            }}
             .name=${item.name}
             .description=${item.description}
             .version=${item.version}
@@ -126,6 +99,8 @@ class OwcCatApp extends LitElement {
             .bundlephobiaUrl=${item.bundlephobiaUrl}
             .readme=${item.readme}
             .demoUrl=${item.demoUrl}
+            .showDetails=${this.showMobileDetail}
+            .detailsTabIndex=${this.detailsTabIndex}
           >
           </owc-cat-item>
         `,

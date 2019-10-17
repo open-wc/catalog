@@ -86,9 +86,6 @@ export default css`
   }
 
   :host([show-details]) {
-    position: fixed;
-    top: 0;
-    z-index: 100;
     margin: 0;
     padding: 10px;
     min-height: 100vh;

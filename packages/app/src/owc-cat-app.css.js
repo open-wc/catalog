@@ -39,6 +39,18 @@ export default css`
     font-weight: normal;
   }
 
+  /* mobile details swipe/scroll */
+  :host([show-mobile-detail]) .items-wrapper {
+    margin-top: 15px;
+    scroll-snap-type: x mandatory;
+    display: flex;
+    overflow-x: scroll;
+  }
+
+  :host([show-mobile-detail]) owc-cat-item {
+    scroll-snap-align: start;
+  }
+
   @keyframes app-logo-spin {
     from {
       transform: rotate(0deg);
