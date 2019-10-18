@@ -8,11 +8,11 @@ export class OwcTabs extends LitElement {
   }
 
   get tabs() {
-    return this.shadowRoot.querySelector('slot[name=tab]').assignedElements();
+    return [...this.querySelectorAll('[slot=tab]')];
   }
 
   get contents() {
-    return this.shadowRoot.querySelector('slot[name=tab-content]').assignedElements();
+    return [...this.querySelectorAll('[slot=tab-content]')];
   }
 
   constructor() {
