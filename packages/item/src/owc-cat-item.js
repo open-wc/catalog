@@ -89,10 +89,11 @@ export class OwcCatItem extends LitElement {
   }
 
   _handleClick(ev) {
-    if (!ev.path.includes(this.shadowRoot.querySelector('#details'))) {
+    const path = ev.composedPath();
+    if (!path.includes(this.shadowRoot.querySelector('#details'))) {
       this.toggle(ev);
     }
-    if (ev.path.includes(this.shadowRoot.querySelector('#details h1'))) {
+    if (path.includes(this.shadowRoot.querySelector('#details h1'))) {
       this.toggle(ev);
     }
   }

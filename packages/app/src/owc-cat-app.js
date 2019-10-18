@@ -167,7 +167,8 @@ class OwcCatApp extends LitElement {
     ev.stopPropagation();
     this.intro = false;
     const { searchValue } = this.shadowRoot.querySelector('owc-cat-intro');
-    this.updateComplete.then(() => {
+    this.updateComplete.then(async () => {
+      await this.header.updateComplete;
       this.header.searchValue = searchValue;
       this.search();
     });

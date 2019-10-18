@@ -23,7 +23,8 @@ export class OwcTabs extends LitElement {
   }
 
   _onClick(ev) {
-    const foundIndex = this.tabs.indexOf(ev.path[0]);
+    const path = ev.composedPath();
+    const foundIndex = this.tabs.indexOf(path[0]);
     if (foundIndex !== -1) {
       this.activeIndex = foundIndex;
       this.dispatchEvent(new Event('activeIndexChanged'));
