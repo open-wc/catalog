@@ -42,13 +42,24 @@ export default css`
   /* mobile details swipe/scroll */
   :host([show-mobile-detail]) .items-wrapper {
     margin-top: 15px;
-    scroll-snap-type: x mandatory;
-    display: flex;
-    overflow-x: scroll;
   }
 
-  :host([show-mobile-detail]) owc-cat-item {
-    scroll-snap-align: start;
+  .pill {
+    white-space: nowrap;
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 12px;
+    text-transform: none;
+    margin: 10px 5px;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    background: #ccc;
+    color: #000;
+    border: 1px solid #aaa;
+  }
+
+  [owc-tabs-active].pill {
+    background: #666;
+    color: #fff;
   }
 
   @keyframes app-logo-spin {
