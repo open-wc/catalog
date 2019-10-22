@@ -13,6 +13,20 @@ export default {
   },
 };
 
+export const tabs = () =>
+  html`
+    <owc-tabs>
+      <div slot="tab">foo</div>
+      <div slot="tab-content">foo content</div>
+      <div slot="tab">bar</div>
+      <div slot="tab-content">bar content</div>
+      <div slot="tab">bar</div>
+      <div slot="tab-content">bar content</div>
+      <div slot="tab">bar</div>
+      <div slot="tab-content">bar content</div>
+    </owc-tabs>
+  `;
+
 export const single = () =>
   html`
     <owc-cat-item

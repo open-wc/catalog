@@ -88,6 +88,10 @@ export class OwcCatItem extends LitElement {
     this.addEventListener('click', this._handleClick.bind(this));
   }
 
+  get dependenciesCount() {
+    return this.flattenedDependencies.length / 4;
+  }
+
   _handleClick(ev) {
     const path = ev.composedPath();
     if (!path.includes(this.shadowRoot.querySelector('#details'))) {
@@ -152,11 +156,9 @@ export class OwcCatItem extends LitElement {
         </div>
 
         <div id="dependencies">
-          <p class="big">
-            ${this.flattenedDependencies.length}<span class="unit mobile">dep</span>
-          </p>
+          <p class="big">${this.dependenciesCount}<span class="unit mobile">dep</span></p>
           <p class="small desktop" title="incl. nested dependencies">
-            ${this.flattenedDependencies.length === 1 ? 'dependency' : 'dependencies'}
+            ${this.dependenciesCount === 1 ? 'dependency' : 'dependencies'}
           </p>
         </div>
 
@@ -191,6 +193,7 @@ export class OwcCatItem extends LitElement {
         </h1>
 
         <owc-tabs
+          mode="display"
           .activeIndex=${this.detailsTabIndex}
           @activeIndexChanged=${this.__syncDetailsTabIndex}
         >
@@ -206,7 +209,7 @@ export class OwcCatItem extends LitElement {
               <dt>Stars on Github</dt>
               <dd>${this.githubStars}</dd>
               <dt>Dependencies</dt>
-              <dd>${this.flattenedDependencies.length}</dd>
+              <dd>${this.dependenciesCount}</dd>
               <dt>Last release on npm</dt>
               <dd><time-ago datetime=${this.versionTime}></time-ago></dd>
               <dt>Downloads on npm</dt>

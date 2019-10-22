@@ -4,6 +4,8 @@ import mdx from './index.mdx';
 
 import '../src/owc-cat-app.js';
 
+// const fullReadme = '# \\<test-wc-card>\n\nThis webcomponent follows the [open-wc](https://github.com/open-wc/open-wc) recommendation.\n\n## Installation\n```bash\nnpm i test-wc-card\n```\n\n## Usage\n```html\n<script type="module">\n  import "test-wc-card/test-wc-card.js";\n</script>\n\n<test-wc-card></test-wc-card>\n```\n\n## Testing using karma (if applied by author)\n```bash\nnpm run test\n```\n\n## Testing using karma via browserstack (if applied by author)\n```bash\nnpm run test:bs\n```\n\n## Demoing using storybook (if applied by author)\n```bash\nnpm run storybook\n```\n\n## Linting (if applied by author)\n```bash\nnpm run lint\n```';
+
 export default {
   title: 'App',
   parameters: {

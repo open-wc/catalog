@@ -69,6 +69,10 @@ export default css`
     height: calc(100vh - 132px);
   }
 
+  owc-tabs {
+    width: calc(100vw - 20px);
+  }
+
   #badges {
     margin-top: 10px;
   }
@@ -89,7 +93,8 @@ export default css`
     margin: 0;
     padding: 10px;
     min-height: 100vh;
-    min-width: 100vw;
+    width: 100vw;
+    border-width: 0 1px;
   }
 
   :host([show-details]) h1 {
@@ -179,6 +184,10 @@ export default css`
       font-size: 26px;
     }
 
+    owc-tabs {
+      width: auto;
+    }
+
     #links {
       grid-template-columns: 130px 130px 130px 130px;
     }
@@ -213,6 +222,7 @@ export default css`
       min-width: auto;
       padding: 15px;
       margin: 15px 10px;
+      width: auto;
     }
 
     :host([show-details]) h1 {

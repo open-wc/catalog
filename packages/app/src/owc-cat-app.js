@@ -7,6 +7,7 @@ import '../../header/src/owc-cat-header.js';
 import '../../intro/src/owc-cat-intro.js';
 import '../../item/src/owc-cat-item.js';
 import '../../filters/src/owc-cat-filters.js';
+import '../../item/src/owc-tabs.js';
 
 function isMobile() {
   return window.innerWidth < 600;
@@ -69,14 +70,30 @@ class OwcCatApp extends LitElement {
 
     if (this.data.length > 0) {
       list = this.data.map(
-        item => html`
+        (item, i) => html`
+          ${this.showMobileDetail
+            ? html`
+                <div slot="tab" class="pill">${item.name}</div>
+              `
+            : html``}
           <owc-cat-item
+            .__catItemIndex=${i}
+            slot="tab-content"
             @showDetailsChanged=${ev => {
               if (isMobile()) {
                 const clickedItem = ev.target;
                 this.showMobileDetail = clickedItem.showDetails;
+
                 this.updateComplete.then(() => {
-                  clickedItem.scrollIntoView({ behavior: 'smooth' });
+                  if (this.showMobileDetail) {
+                    this.shadowRoot.querySelector('.items-wrapper').scrollIntoView();
+                    this.shadowRoot.querySelector('owc-tabs').activeIndex =
+                      clickedItem.__catItemIndex;
+                  } else {
+                    [...this.shadowRoot.querySelectorAll('owc-cat-item')][
+                      clickedItem.__catItemIndex
+                    ].scrollIntoView({ behavior: 'smooth' });
+                  }
                 });
               }
             }}
@@ -139,8 +156,23 @@ class OwcCatApp extends LitElement {
                 <div id="loading">
                   <semipolar-spinner></semipolar-spinner>
                 </div>
+
                 <div class="items-wrapper">
-                  ${list}
+                  ${this.showMobileDetail
+                    ? html`
+                        <owc-tabs
+                          @activeIndexChanged=${() => {
+                            if (isMobile()) {
+                              this.shadowRoot.querySelector('.items-wrapper').scrollIntoView();
+                            }
+                          }}
+                        >
+                          ${list}
+                        </owc-tabs>
+                      `
+                    : html`
+                        ${list}
+                      `}
                 </div>
               </main>
             </div>
