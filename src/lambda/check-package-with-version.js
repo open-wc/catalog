@@ -191,6 +191,9 @@ export async function handler(ev) {
 
   return {
     statusCode: 200,
+    headers: new Headers({
+      'Access-Control-Allow-Origin': '*',
+    }),
     body: `Unknown error - something went seriously wrong :/ please file an issue.`,
   };
 }
