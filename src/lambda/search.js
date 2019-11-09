@@ -45,6 +45,9 @@ export async function handler(ev) {
   // 3. return db filled data
   return {
     statusCode: 200,
+    headers: new Headers({
+      'Access-Control-Allow-Origin': '*',
+    }),
     body: JSON.stringify(filled, null, 2),
   };
 }
