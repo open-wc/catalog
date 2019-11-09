@@ -48,6 +48,6 @@ export async function handler(ev) {
     headers: new Headers({
       'Access-Control-Allow-Origin': '*',
     }),
-    body: JSON.stringify(filled, null, 2),
+    body: JSON.stringify({ a: 'b' }),
   };
 }
