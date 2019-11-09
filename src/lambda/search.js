@@ -47,7 +47,7 @@ export async function handler(ev) {
     statusCode: 200,
     headers: new Headers({
       'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
+      'Access-Control-Allow-Headers': 'Content-Type',
       Test: 'sadasfdsadf',
     }),
     body: JSON.stringify(filled, null, 2),
