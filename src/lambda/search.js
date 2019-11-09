@@ -47,7 +47,8 @@ export async function handler(ev) {
     statusCode: 200,
     headers: new Headers({
       'Access-Control-Allow-Origin': '*',
+      'Content-Type': 'application/json',
     }),
-    body: JSON.stringify({ a: 'b' }),
+    body: JSON.stringify(filled, null, 2),
   };
 }
