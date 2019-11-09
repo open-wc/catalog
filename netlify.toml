@@ -3,7 +3,7 @@
   publish = "dist"
 
 [[headers]]
-  for = "/*"
+  for = "/.netlify/functions"
   [headers.values]
     Access-Control-Allow-Origin = "*"
     Content-Type = "application/json"
