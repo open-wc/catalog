@@ -52,7 +52,7 @@ export async function handler(ev) {
       'Access-Control-Allow-Methods': '*',
       'Access-Control-Max-Age': '2592000',
       'Access-Control-Allow-Credentials': 'true',
-      Test: 'sadasfdsadf',
+      Test: 'asdsadasd',
     }),
     body: JSON.stringify(filled, null, 2),
   };
