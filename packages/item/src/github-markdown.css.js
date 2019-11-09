@@ -965,6 +965,6 @@ export default css`
 
   /** added hacks */
   .markdown-body pre {
-    max-width: calc(90vw - 10px);
+    max-width: calc(100vw - 10px);
   }
 `;

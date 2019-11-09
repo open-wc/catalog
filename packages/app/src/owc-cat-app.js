@@ -7,6 +7,11 @@ import '../../header/src/owc-cat-header.js';
 import '../../intro/src/owc-cat-intro.js';
 import '../../item/src/owc-cat-item.js';
 import '../../filters/src/owc-cat-filters.js';
+import '../../item/src/owc-tabs.js';
+
+function isMobile() {
+  return window.innerWidth < 600;
+}
 
 class OwcCatApp extends LitElement {
   static get properties() {
@@ -14,6 +19,8 @@ class OwcCatApp extends LitElement {
       data: { type: Array },
       intro: { type: Boolean },
       loading: { type: Boolean, reflect: true },
+      showMobileDetail: { type: Boolean, reflect: true, attribute: 'show-mobile-detail' },
+      detailsTabIndex: { type: Number },
     };
   }
 
@@ -39,6 +46,8 @@ class OwcCatApp extends LitElement {
     super();
     this.intro = true;
     this.loading = false;
+    this.showMobileDetail = false;
+    this.detailsTabIndex = 1;
     this.data = [];
     this.query = '';
     this.__firstSearch = true;
@@ -61,8 +70,38 @@ class OwcCatApp extends LitElement {
 
     if (this.data.length > 0) {
       list = this.data.map(
-        item => html`
+        (item, i) => html`
+          ${this.showMobileDetail
+            ? html`
+                <div slot="tab" class="pill">${item.name}</div>
+              `
+            : html``}
           <owc-cat-item
+            .__catItemIndex=${i}
+            slot="tab-content"
+            @showDetailsChanged=${ev => {
+              if (isMobile()) {
+                const clickedItem = ev.target;
+                this.showMobileDetail = clickedItem.showDetails;
+
+                this.updateComplete.then(() => {
+                  if (this.showMobileDetail) {
+                    this.shadowRoot.querySelector('.items-wrapper').scrollIntoView();
+                    this.shadowRoot.querySelector('owc-tabs').activeIndex =
+                      clickedItem.__catItemIndex;
+                  } else {
+                    [...this.shadowRoot.querySelectorAll('owc-cat-item')][
+                      clickedItem.__catItemIndex
+                    ].scrollIntoView({ behavior: 'smooth' });
+                  }
+                });
+              }
+            }}
+            @detailsTabIndexChanged=${ev => {
+              if (isMobile()) {
+                this.detailsTabIndex = ev.target.detailsTabIndex;
+              }
+            }}
             .name=${item.name}
             .description=${item.description}
             .version=${item.version}
@@ -77,6 +116,8 @@ class OwcCatApp extends LitElement {
             .bundlephobiaUrl=${item.bundlephobiaUrl}
             .readme=${item.readme}
             .demoUrl=${item.demoUrl}
+            .showDetails=${this.showMobileDetail}
+            .detailsTabIndex=${this.detailsTabIndex}
           >
           </owc-cat-item>
         `,
@@ -115,8 +156,23 @@ class OwcCatApp extends LitElement {
                 <div id="loading">
                   <semipolar-spinner></semipolar-spinner>
                 </div>
+
                 <div class="items-wrapper">
-                  ${list}
+                  ${this.showMobileDetail
+                    ? html`
+                        <owc-tabs
+                          @activeIndexChanged=${() => {
+                            if (isMobile()) {
+                              this.shadowRoot.querySelector('.items-wrapper').scrollIntoView();
+                            }
+                          }}
+                        >
+                          ${list}
+                        </owc-tabs>
+                      `
+                    : html`
+                        ${list}
+                      `}
                 </div>
               </main>
             </div>
@@ -143,7 +199,8 @@ class OwcCatApp extends LitElement {
     ev.stopPropagation();
     this.intro = false;
     const { searchValue } = this.shadowRoot.querySelector('owc-cat-intro');
-    this.updateComplete.then(() => {
+    this.updateComplete.then(async () => {
+      await this.header.updateComplete;
       this.header.searchValue = searchValue;
       this.search();
     });

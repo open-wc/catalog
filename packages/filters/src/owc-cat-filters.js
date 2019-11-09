@@ -9,9 +9,22 @@ class OwcCatFilters extends LitElement {
         }
 
         h3 {
-          margin: 0;
-          text-align: center;
-          margin-bottom: 10px;
+          text-align: left;
+          position: relative;
+          padding: 7px 7px 7px 15px;
+          margin: 0 10px;
+          background: #fff;
+          border: 1px solid #ccc;
+        }
+
+        h3::after {
+          content: '∨';
+          display: block;
+          position: absolute;
+          right: 15px;
+          top: 2px;
+          font-weight: normal;
+          font-size: 24px;
         }
 
         #content {
@@ -35,6 +48,11 @@ class OwcCatFilters extends LitElement {
           display: block;
         }
 
+        :host([opened]) h3::after {
+          transform: rotate(180deg);
+          top: 6px;
+        }
+
         @media only screen and (min-width: 420px) {
           :host {
             margin-right: 20px;
@@ -46,7 +64,14 @@ class OwcCatFilters extends LitElement {
 
           h3 {
             text-align: left;
-            margin-bottom: 0;
+            padding: 0;
+            border: none;
+            margin: 0;
+            background: none;
+          }
+
+          h3::after {
+            display: none;
           }
 
           .mobile {
@@ -61,6 +86,7 @@ class OwcCatFilters extends LitElement {
             height: auto;
             padding: 0;
             text-align: left;
+            background: none;
           }
         }
       `,
@@ -97,7 +123,7 @@ class OwcCatFilters extends LitElement {
         <h3 @click=${this.toggle}>Filters</h3>
         <div id="content">
           <h3 @click=${this.toggle} class="mobile">
-            Filters <button @click=${ev => ev.preventDefault()}>x</button>
+            Filters
           </h3>
           <h4>Dependencies</h4>
           <div id="dependencies" @change=${this.search}>
