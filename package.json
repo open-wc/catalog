@@ -58,7 +58,7 @@
     "husky": "^1.0.0",
     "koa-proxies": "^0.8.1",
     "lint-staged": "^8.0.0",
-    "moment": "^2.0.0",
+    "moment": "^2.29.2",
     "netlify-lambda": "^1.6.3",
     "npm-run-all": "^4.1.5",
     "polymer-webpack-loader": "^2.0.0",
